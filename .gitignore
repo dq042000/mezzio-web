@@ -1,0 +1,19 @@
+# Global
+.history
+.docker/logs/nginx/*
+.docker/logs/supervisor/*
+.docker/nginx/conf.d/*
+.env
+DB/*
+web/mezzio/data/*
+web/mezzio/data/cache/*
+web/mezzio/data/logs/*
+web/mezzio/data/sql/*
+docker-compose.yml
+
+!.docker/nginx/conf.d/.gitkeep
+!DB/.gitkeep
+!web/mezzio/data/.gitkeep
+!web/mezzio/data/cache/.gitkeep
+!web/mezzio/data/logs/.gitkeep
+!web/mezzio/data/sql/.gitkeep

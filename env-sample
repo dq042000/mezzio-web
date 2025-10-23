@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# See https://docs.docker.com/compose/environment-variables/#the-env-file
+
+### PORTS ###########################################
+NGINX_PORT=7770
+PHPMYADMIN_PORT=7771
+MONGODB_PORT=7772
+MARIADB_PORT=7773
+REDIS_PORT=7774
+
+### DEFAULT ###########################################
+PHP_DIRECTORY=mezzio
+
+### WORKSPACE #############################################
+WORKSPACE_INSTALL_SUPERVISOR=true
+WORKSPACE_TIMEZONE=Asia/Taipei
+
+### PHP Version ###########################################
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
+# Accepted values: 8.3 - 8.2 - 8.1 - 8.0 - 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
+PHP_VERSION=8.3
+PHP_COMPOSER_VERSION=2.2.22
+PHP_MONGO_VERSION=1.21.0
+
+### PHP_FPM ###############################################
+PHP_FPM_INSTALL_MONGO=true
+PHP_FPM_INSTALL_LDAP=true
+PHP_FPM_INSTALL_INTL=true
+PHP_FPM_INSTALL_MYSQLI=true
+PHP_FPM_INSTALL_PHPREDIS=true
+PHP_FPM_INSTALL_IMAGEMAGICK=true
+PHP_FPM_INSTALL_MEMCACHED=true
+PHP_FPM_INSTALL_XSL=true
+PHP_FPM_INSTALL_APCU=true
+PHP_FPM_INSTALL_XDEBUG=true
+PHP_FPM_SPECIFY_MONGO_VERSION=true
+SUPERVISOR_LOG_DIRECTORY=./.docker/logs/supervisor
+
+### NGINX #################################################
+NGINX_HOST_LOG_PATH=./.docker/logs/nginx/
+NGINX_HOST_CONF_PATH=./.docker/nginx/conf.d/
+
+### MARIADB ###############################################
+MARIADB_HOST=mariadb
+MARIADB_VERSION=latest
+MARIADB_DATABASE=mezzio_web
+MARIADB_USER=root
+MARIADB_PASSWORD=
+MARIADB_ROOT_PASSWORD=
+
+### MONGODB ###########################################
+MONGO_URL=mongodb://mongodb:27017
+MONGO_HOST=mongodb
+MONGO_INITDB_ROOT_USERNAME=admin
+MONGO_INITDB_ROOT_PASSWORD=
+MONGO_INITDB_DATABASE=mezzio_web
+
+### REDIS ###########################################
+REDIS_PASSWORD=mezzio-web-pass
+
+### OAUTH ###########################################
+CHECK_KEY=Rd614!@@
+CHECK_SECRET=va424!@@
