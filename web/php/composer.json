@@ -51,12 +51,13 @@
     "laminas/laminas-component-installer": "^2.6 || ^3.5",
     "laminas/laminas-config-aggregator": "^1.18",
     "laminas/laminas-diactoros": "^3.8.0",
-    "laminas/laminas-stdlib": "^3.21",
     "laminas/laminas-servicemanager": "^3.22",
+    "laminas/laminas-stdlib": "^3.21",
     "mezzio/mezzio": "^3.23.1",
-    "mezzio/mezzio-helpers": "^5.20",
     "mezzio/mezzio-fastroute": "^3.11.0",
-    "mezzio/mezzio-twigrenderer": "^2.15"
+    "mezzio/mezzio-helpers": "^5.20",
+    "mezzio/mezzio-twigrenderer": "^2.15",
+    "vlucas/phpdotenv": "^5.6.2"
   },
   "require-dev": {
     "laminas/laminas-coding-standard": "^3.1.0",

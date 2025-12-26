@@ -6,6 +6,9 @@ use Laminas\ConfigAggregator\ArrayProvider;
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\ConfigAggregator\PhpFileProvider;
 
+// 取得 ./web/api/.env 環境設定
+\Dotenv\Dotenv::createImmutable('./config')->load();
+
 // To enable or disable caching, set the `ConfigAggregator::ENABLE_CACHE` boolean in
 // `config/autoload/local.php`.
 $cacheConfig = [
