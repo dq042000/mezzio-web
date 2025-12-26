@@ -49,6 +49,7 @@ MARIADB_DATABASE=mezzio_web
 MARIADB_USER=mezzio
 MARIADB_PASSWORD=
 MARIADB_ROOT_PASSWORD=
+MARIADB_LOG_PATH=./.docker/logs/mysql
 
 ### MONGODB ###########################################
 MONGO_URL=mongodb://mezzio-mongodb:27017
@@ -56,6 +57,7 @@ MONGO_HOST=mezzio-mongodb
 MONGO_INITDB_ROOT_USERNAME=admin
 MONGO_INITDB_ROOT_PASSWORD=
 MONGO_INITDB_DATABASE=mezzio_web
+MONGO_LOG_PATH=./.docker/logs/mongodb
 
 ### REDIS ###########################################
 REDIS_PASSWORD=mezzio-web-pass
