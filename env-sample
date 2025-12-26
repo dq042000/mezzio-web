@@ -8,9 +8,10 @@ PHPMYADMIN_PORT=7771
 MONGODB_PORT=7772
 MARIADB_PORT=7773
 REDIS_PORT=7774
+MEMCACHED_PORT=7775
 
 ### DEFAULT ###########################################
-PHP_DIRECTORY=mezzio
+PHP_DIRECTORY=php
 
 ### WORKSPACE #############################################
 WORKSPACE_INSTALL_SUPERVISOR=true
@@ -45,7 +46,7 @@ NGINX_HOST_CONF_PATH=./.docker/nginx/conf.d/
 MARIADB_HOST=mezzio-mariadb
 MARIADB_VERSION=latest
 MARIADB_DATABASE=mezzio_web
-MARIADB_USER=root
+MARIADB_USER=mezzio
 MARIADB_PASSWORD=
 MARIADB_ROOT_PASSWORD=
 

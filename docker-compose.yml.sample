@@ -5,7 +5,7 @@ services:
         image: memcached:latest
         restart: always
         ports:
-            - 11211
+            - ${MEMCACHED_PORT}:11211
         networks:
             - network
 
@@ -36,7 +36,7 @@ services:
             - .docker/php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
             - ${SUPERVISOR_LOG_DIRECTORY}:/var/log/supervisor
             - ./web:/var/app
-        working_dir: /var/app/mezzio
+        working_dir: /var/app/${PHP_DIRECTORY}
         environment:
             - TZ=Asia/Taipei
         networks:
@@ -51,7 +51,6 @@ services:
             - mezzio-mariadb
         ports:
             - ${NGINX_PORT}:80
-            - ${WEB_PORT}:8080
         links:
             - mezzio-php
         volumes:

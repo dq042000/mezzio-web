@@ -9,7 +9,7 @@ server {
     # Logs
     access_log          /dev/stdout;
     error_log           /dev/stderr;
-    root                /var/app/mezzio/public;
+    root                /var/app/php/public;
 
     # 文件和目錄不存在的時候
     if (!-e $request_filename) {
