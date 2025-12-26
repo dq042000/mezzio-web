@@ -4,4 +4,5 @@
 clover.xml
 coveralls-upload.json
 phpunit.xml
+composer.lock
 vendor/
