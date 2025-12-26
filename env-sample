@@ -42,7 +42,7 @@ NGINX_HOST_LOG_PATH=./.docker/logs/nginx/
 NGINX_HOST_CONF_PATH=./.docker/nginx/conf.d/
 
 ### MARIADB ###############################################
-MARIADB_HOST=mariadb
+MARIADB_HOST=mezzio-mariadb
 MARIADB_VERSION=latest
 MARIADB_DATABASE=mezzio_web
 MARIADB_USER=root
@@ -50,8 +50,8 @@ MARIADB_PASSWORD=
 MARIADB_ROOT_PASSWORD=
 
 ### MONGODB ###########################################
-MONGO_URL=mongodb://mongodb:27017
-MONGO_HOST=mongodb
+MONGO_URL=mongodb://mezzio-mongodb:27017
+MONGO_HOST=mezzio-mongodb
 MONGO_INITDB_ROOT_USERNAME=admin
 MONGO_INITDB_ROOT_PASSWORD=
 MONGO_INITDB_DATABASE=mezzio_web

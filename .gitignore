@@ -3,17 +3,25 @@
 .docker/logs/nginx/*
 .docker/logs/supervisor/*
 .docker/nginx/conf.d/*
+.docker/php-fpm/sessions/*
 .env
 DB/*
 web/mezzio/data/*
 web/mezzio/data/cache/*
 web/mezzio/data/logs/*
 web/mezzio/data/sql/*
+web/mezzio/data/temp/*
 docker-compose.yml
 
 !.docker/nginx/conf.d/.gitkeep
+!.docker/php-fpm/sessions/.gitkeep
 !DB/.gitkeep
 !web/mezzio/data/.gitkeep
+!web/mezzio/data/cache/
+!web/mezzio/data/logs/
+!web/mezzio/data/sql/
+!web/mezzio/data/temp/
 !web/mezzio/data/cache/.gitkeep
 !web/mezzio/data/logs/.gitkeep
 !web/mezzio/data/sql/.gitkeep
+!web/mezzio/data/temp/.gitkeep
