@@ -60,7 +60,7 @@ MONGO_INITDB_DATABASE=mezzio_web
 MONGO_LOG_PATH=./.docker/logs/mongodb
 
 ### REDIS ###########################################
-REDIS_PASSWORD=mezzio-web-pass
+REDIS_PASSWORD=
 
 ### OAUTH ###########################################
 CHECK_KEY=Rd614!@@
