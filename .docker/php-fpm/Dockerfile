@@ -165,24 +165,28 @@ ARG INSTALL_XDEBUG=true
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
     # https://xdebug.org/docs/compat
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ]; } ;}; then \
-        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-            pecl install xdebug-3.3.0; \
-        else \
-            pecl install xdebug-3.1.6; \
-        fi; \
+    PHP_MAJOR=$(php -r "echo PHP_MAJOR_VERSION;"); \
+    PHP_MINOR=$(php -r "echo PHP_MINOR_VERSION;"); \
+    if [ "$PHP_MAJOR" = "8" ] && [ "$PHP_MINOR" -le 3 ]; then \
+        pecl install xdebug-3.3.0; \
+        docker-php-ext-enable xdebug; \
+    elif [ "$PHP_MAJOR" = "8" ] && [ "$PHP_MINOR" -ge 4 ]; then \
+        echo "Xdebug 尚未支援 PHP $PHP_MAJOR.$PHP_MINOR，跳過安裝。"; \
+    elif [ "$PHP_MAJOR" = "7" ] && { [ "$PHP_MINOR" = "4" ] || [ "$PHP_MINOR" = "3" ]; }; then \
+        pecl install xdebug-3.1.6; \
+        docker-php-ext-enable xdebug; \
     else \
-        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        if [ "$PHP_MAJOR" = "5" ]; then \
             pecl install xdebug-2.5.5; \
         else \
-            if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+            if [ "$PHP_MINOR" = "0" ]; then \
                 pecl install xdebug-2.9.0; \
             else \
                 pecl install xdebug-2.9.8; \
-            fi \
-        fi \
-    fi && \
-    docker-php-ext-enable xdebug \
+            fi; \
+        fi; \
+        docker-php-ext-enable xdebug; \
+    fi \
 ;fi
 
 ###########################################################################
@@ -285,5 +289,6 @@ WORKDIR /var/app
 EXPOSE 9000
 
 COPY supervisor/supervisord.conf /etc/supervisord.conf
+RUN [ -f /var/log/supervisor/supervisord.log ] || touch /var/log/supervisor/supervisord.log
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
