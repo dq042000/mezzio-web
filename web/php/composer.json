@@ -48,6 +48,10 @@
   "require": {
     "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
     "composer/package-versions-deprecated": "^1.11.99.5",
+    "doctrine/doctrine-orm-module": "^6.3",
+    "doctrine/migrations": "^3.9",
+    "dq042000/doctrine2-exporter": "^4.0.4",
+    "dq042000/mysql-workbench-schema-exporter": "^4.0",
     "laminas/laminas-component-installer": "^2.6 || ^3.5",
     "laminas/laminas-config-aggregator": "^1.18",
     "laminas/laminas-diactoros": "^3.8.0",
@@ -93,6 +97,7 @@
     "development-disable": "laminas-development-mode disable",
     "development-enable": "laminas-development-mode enable",
     "development-status": "laminas-development-mode status",
+    "doctrine": "vendor/bin/doctrine",
     "mezzio": "laminas --ansi",
     "check": [
       "@cs-check",

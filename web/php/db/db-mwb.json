@@ -1,0 +1,18 @@
+{
+    "export": "doctrine2-zf2inputfilterannotation",
+    "zip": false,
+    "dir": "./data/temp",
+    "params": {
+        "backupExistingFile": false,
+        "skipPluralNameChecking": false,
+        "enhanceManyToManyDetection": true,
+        "bundleNamespace": "",
+        "entityNamespace": "Base\\Entity",
+        "repositoryNamespace": "",
+        "useAnnotationPrefix": "ORM\\",
+        "useAutomaticRepository": true,
+        "indentation": 4,
+        "filename": "%entity%.%extension%",
+        "quoteIdentifier": false
+    }
+}

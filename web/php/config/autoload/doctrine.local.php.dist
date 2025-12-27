@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Local configuration.
+ *
+ * Copy this file to `local.php` and change its settings as required.
+ * `local.php` is ignored by git and safe to use for local and sensitive data like usernames and passwords.
+ */
+
+declare(strict_types=1);
+
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
+                'params' => [
+                    'host'     => $_ENV['MARIADB_HOST'],
+                    'port'     => '3306',
+                    'user'     => $_ENV['MARIADB_USER'],
+                    'password' => $_ENV['MARIADB_PASSWORD'],
+                    'dbname'   => $_ENV['MARIADB_DATABASE'],
+                    'charset'  => 'utf8mb4',
+                ],
+            ],
+        ],
+        'driver' => [
+            'App_driver' => [
+                'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../../src/App/Entity',
+                ],
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    'App\Entity' => 'App_driver',
+                ],
+            ],
+        ],
+    ],
+];

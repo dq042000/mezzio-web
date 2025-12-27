@@ -6,3 +6,4 @@ coveralls-upload.json
 phpunit.xml
 composer.lock
 vendor/
+db/mezzio.mwb.bak

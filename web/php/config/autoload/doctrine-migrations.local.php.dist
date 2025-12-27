@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Doctrine configuration.
+ */
+
+declare(strict_types=1);
+
+return [
+    'doctrine' => [
+        'migrations' => [
+            // 儲存 migration 執行紀錄的資料表與欄位命名
+            'table_storage' => [
+                // 資料表名稱
+                'table_name' => 'doctrine_migration_versions',
+                // 版本欄位名稱
+                'version_column_name' => 'version',
+                // 版本欄位長度
+                'version_column_length' => 191,
+                // 執行時間紀錄欄位（時間戳）
+                'executed_at_column_name' => 'executed_at',
+                // 執行耗時欄位（毫秒）
+                'execution_time_column_name' => 'execution_time',
+            ],
+            // migration 類別命名空間對應的檔案路徑
+            'migrations_paths' => [
+                'Migrations' => __DIR__ . '/../../data/DoctrineORMModule/Migrations',
+            ],
+            // 發生錯誤時全部回滾
+            'all_or_nothing' => true,
+            // 確認資料庫平台相符才執行
+            'check_database_platform' => true,
+        ],
+    ],
+];
