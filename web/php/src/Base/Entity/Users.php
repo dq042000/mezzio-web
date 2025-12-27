@@ -16,19 +16,20 @@ use Laminas\InputFilter\InputFilterAwareInterface;
 use Laminas\InputFilter\InputFilterInterface;
 
 /**
- * Base\Entity\News
+ * Base\Entity\Users
  *
- *  * 最新消息
+ *  * 使用者
  *  *
- * @ORM\Entity(repositoryClass="NewsRepository")
- * @ORM\Table(name="news",
- *     options={"comment": "最新消息",
+ * @ORM\Entity(repositoryClass="UsersRepository")
+ * @ORM\Table(name="users",
+ *     indexes={@ORM\Index(name="fk_users_auth_role_idx", columns={"auth_role_id"})},
+ *     options={"comment": "使用者",
  *         "collate": "utf8mb4_unicode_ci",
  *         "charset": "utf8mb4"
  *     }
  * )
  */
-class News implements InputFilterAwareInterface
+class Users implements InputFilterAwareInterface
 {
     /**
      * Instance of InputFilterInterface.
@@ -45,16 +46,27 @@ class News implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * 標題
-     * @ORM\Column(type="string", length=100, options={"comment": "標題"})
+     * @ORM\Column(type="integer")
      */
-    protected $title;
+    protected $auth_role_id;
 
     /**
-     * 內容
-     * @ORM\Column(type="text", options={"comment": "內容"})
+     * 帳號
+     * @ORM\Column(type="string", length=45, options={"comment": "帳號"})
      */
-    protected $content;
+    protected $username;
+
+    /**
+     * 密碼
+     * @ORM\Column(name="`password`", type="string", length=45, options={"comment": "密碼"})
+     */
+    protected $password;
+
+    /**
+     * 狀態
+     * @ORM\Column(name="`status`", type="integer", options={"comment": "狀態"})
+     */
+    protected $status;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -67,10 +79,10 @@ class News implements InputFilterAwareInterface
     protected $updated_at;
 
     /**
-     * 公佈狀態
-     * @ORM\Column(name="`status`", type="integer", options={"comment": "公佈狀態"})
+     * @ORM\ManyToOne(targetEntity="Base\Entity\AuthRole", inversedBy="users")
+     * @ORM\JoinColumn(name="auth_role_id", referencedColumnName="id", nullable=false)
      */
-    protected $status;
+    protected $auth_role;
 
     public function __construct()
     {
@@ -80,7 +92,7 @@ class News implements InputFilterAwareInterface
      * Set the value of id.
      *
      * @param int $id
-     * @return \Base\Entity\News
+     * @return \Base\Entity\Users
      */
     public function setId($id)
     {
@@ -100,56 +112,102 @@ class News implements InputFilterAwareInterface
     }
 
     /**
-     * Set the value of title.
+     * Set the value of auth_role_id.
      *
-     * @param string $title
-     * @return \Base\Entity\News
+     * @param int $auth_role_id
+     * @return \Base\Entity\Users
      */
-    public function setTitle($title)
+    public function setAuthRoleId($auth_role_id)
     {
-        $this->title = $title;
+        $this->auth_role_id = $auth_role_id;
 
         return $this;
     }
 
     /**
-     * Get the value of title.
+     * Get the value of auth_role_id.
      *
-     * @return string
+     * @return int
      */
-    public function getTitle()
+    public function getAuthRoleId()
     {
-        return $this->title;
+        return $this->auth_role_id;
     }
 
     /**
-     * Set the value of content.
+     * Set the value of username.
      *
-     * @param string $content
-     * @return \Base\Entity\News
+     * @param string $username
+     * @return \Base\Entity\Users
      */
-    public function setContent($content)
+    public function setUsername($username)
     {
-        $this->content = $content;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get the value of content.
+     * Get the value of username.
      *
      * @return string
      */
-    public function getContent()
+    public function getUsername()
     {
-        return $this->content;
+        return $this->username;
+    }
+
+    /**
+     * Set the value of password.
+     *
+     * @param string $password
+     * @return \Base\Entity\Users
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password.
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of status.
+     *
+     * @param int $status
+     * @return \Base\Entity\Users
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status.
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
      * Set the value of created_at.
      *
      * @param \DateTime $created_at
-     * @return \Base\Entity\News
+     * @return \Base\Entity\Users
      */
     public function setCreatedAt($created_at)
     {
@@ -172,7 +230,7 @@ class News implements InputFilterAwareInterface
      * Set the value of updated_at.
      *
      * @param \DateTime $updated_at
-     * @return \Base\Entity\News
+     * @return \Base\Entity\Users
      */
     public function setUpdatedAt($updated_at)
     {
@@ -192,26 +250,26 @@ class News implements InputFilterAwareInterface
     }
 
     /**
-     * Set the value of status.
+     * Set AuthRole entity (many to one).
      *
-     * @param int $status
-     * @return \Base\Entity\News
+     * @param \Base\Entity\AuthRole $auth_role
+     * @return \Base\Entity\Users
      */
-    public function setStatus($status)
+    public function setAuthRole($auth_role)
     {
-        $this->status = $status;
+        $this->auth_role = $auth_role;
 
         return $this;
     }
 
     /**
-     * Get the value of status.
+     * Get AuthRole entity (many to one).
      *
-     * @return int
+     * @return \Base\Entity\AuthRole
      */
-    public function getStatus()
+    public function getAuthRole()
     {
-        return $this->status;
+        return $this->auth_role;
     }
 
     /**
@@ -248,7 +306,17 @@ class News implements InputFilterAwareInterface
                                 ],
             ],
             [
-                'name' => 'title',
+                'name' => 'auth_role_id',
+                'required' => true,
+                'filters' => [
+                                    ['name' => 'Laminas\Filter\ToInt'],
+                                ],
+                'validators' => [
+                                    ['name' => 'Laminas\I18n\Validator\IsInt'],
+                                ],
+            ],
+            [
+                'name' => 'username',
                 'required' => true,
                 'filters' => [
                                     ['name' => 'Laminas\Filter\StripTags'],
@@ -260,17 +328,38 @@ class News implements InputFilterAwareInterface
                                         'options' => [
                                             'encoding' => 'UTF-8',
                                             'min' => 1,
-                                            'max' => 100
+                                            'max' => 45
                                         ],
                                     ],
                                 ],
             ],
             [
-                'name' => 'content',
+                'name' => 'password',
                 'required' => true,
                 'filters' => [
+                                    ['name' => 'Laminas\Filter\StripTags'],
+                                    ['name' => 'Laminas\Filter\StringTrim'],
                                 ],
-                'validators' => [],
+                'validators' => [
+                                    [
+                                        'name' => 'Laminas\Validator\StringLength',
+                                        'options' => [
+                                            'encoding' => 'UTF-8',
+                                            'min' => 1,
+                                            'max' => 45
+                                        ],
+                                    ],
+                                ],
+            ],
+            [
+                'name' => 'status',
+                'required' => true,
+                'filters' => [
+                                    ['name' => 'Laminas\Filter\ToInt'],
+                                ],
+                'validators' => [
+                                    ['name' => 'Laminas\I18n\Validator\IsInt'],
+                                ],
             ],
             [
                 'name' => 'created_at',
@@ -283,16 +372,6 @@ class News implements InputFilterAwareInterface
                 'required' => false,
                 'filters' => [],
                 'validators' => [],
-            ],
-            [
-                'name' => 'status',
-                'required' => true,
-                'filters' => [
-                                    ['name' => 'Laminas\Filter\ToInt'],
-                                ],
-                'validators' => [
-                                    ['name' => 'Laminas\I18n\Validator\IsInt'],
-                                ],
             ],
         ];
         $this->inputFilter = $factory->createInputFilter($filters);
@@ -330,8 +409,8 @@ class News implements InputFilterAwareInterface
      */
     public function getArrayCopy(array $fields = [])
     {
-        $dataFields = ['id', 'title', 'content', 'created_at', 'updated_at', 'status'];
-        $relationFields = [];
+        $dataFields = ['id', 'auth_role_id', 'username', 'password', 'status', 'created_at', 'updated_at'];
+        $relationFields = ['authRole'];
         $copiedFields = [];
         foreach ($relationFields as $relationField) {
             $map = null;
@@ -363,6 +442,6 @@ class News implements InputFilterAwareInterface
 
     public function __sleep()
     {
-        return ['id', 'title', 'content', 'created_at', 'updated_at', 'status'];
+        return ['id', 'auth_role_id', 'username', 'password', 'status', 'created_at', 'updated_at'];
     }
 }

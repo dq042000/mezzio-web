@@ -228,7 +228,7 @@ MAINMENU() {
                 if [ "$user_confirm_uppercase" = 'yes' ]; then
                     docker exec -ti mezzio_php_1 sh bin/export.sh
                     if compgen -G "${dir}/web/${PHP_DIRECTORY}/data/temp/*.php" > /dev/null; then
-                        cp ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php ${dir}/web/${PHP_DIRECTORY}/module/Base/src/Entity/
+                        cp ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php ${dir}/web/${PHP_DIRECTORY}/src/Base/Entity/
                         rm -f ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php
                     fi
                     docker exec -ti mezzio_php_1 vendor/bin/doctrine migrations:diff
@@ -254,7 +254,7 @@ MAINMENU() {
                 user_confirm_uppercase=$(echo -e "$user_confirm" | tr '[:upper:]' '[:lower:]')
                 if [ "$user_confirm_uppercase" = 'yes' ]; then
                     if compgen -G "${dir}/web/${PHP_DIRECTORY}/data/temp/*.php" > /dev/null; then
-                        cp ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php ${dir}/web/${PHP_DIRECTORY}/module/Base/src/Entity/
+                        cp ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php ${dir}/web/${PHP_DIRECTORY}/src/Base/Entity/
                         rm -f ${dir}/web/${PHP_DIRECTORY}/data/temp/*.php
                     fi
                     docker exec -ti mezzio_php_1 vendor/bin/doctrine migrations:diff

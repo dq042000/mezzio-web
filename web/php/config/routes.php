@@ -39,7 +39,14 @@ use Psr\Container\ContainerInterface;
  * );
  */
 
+
+use App\Handler\LoginHandler;
+use App\Handler\CaptchaHandler;
+
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     $app->get('/', HomePageHandler::class, 'home');
+    $app->get('/login', LoginHandler::class, 'login.form');
+    $app->post('/login', LoginHandler::class, 'login.submit');
+    $app->get('/captcha', CaptchaHandler::class, 'captcha');
     $app->get('/api/ping', PingHandler::class, 'api.ping');
 };

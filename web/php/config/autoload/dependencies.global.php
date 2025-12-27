@@ -20,7 +20,8 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
-            // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
+            \App\Handler\LoginHandler::class => \App\Handler\LoginHandlerFactory::class,
+            \Mezzio\Session\SessionPersistenceInterface::class => \Mezzio\Session\Ext\PhpSessionPersistenceFactory::class,
         ],
     ],
 ];

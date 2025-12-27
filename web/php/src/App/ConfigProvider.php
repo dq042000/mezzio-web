@@ -36,6 +36,8 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                Handler\LoginHandler::class => Handler\LoginHandlerFactory::class,
+                \Mezzio\Session\SessionPersistenceInterface::class => \Mezzio\Session\Ext\PhpSessionPersistenceFactory::class,
             ],
         ];
     }
@@ -50,6 +52,7 @@ class ConfigProvider
                 'app'    => ['templates/app'],
                 'error'  => ['templates/error'],
                 'layout' => ['templates/layout'],
+                'auth'   => ['templates/auth'],
             ],
         ];
     }

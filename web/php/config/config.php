@@ -16,6 +16,9 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Mezzio\Session\Ext\ConfigProvider::class,
+    \Mezzio\Csrf\ConfigProvider::class,
+    \Mezzio\Session\ConfigProvider::class,
     \DoctrineORMModule\ConfigProvider::class,
     \DoctrineModule\ConfigProvider::class,
     \Laminas\Cache\Storage\Adapter\Memory\ConfigProvider::class,

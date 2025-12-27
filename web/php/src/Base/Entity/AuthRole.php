@@ -9,6 +9,7 @@
 
 namespace Base\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Laminas\InputFilter\InputFilter;
 use Laminas\InputFilter\Factory as InputFactory;
@@ -16,19 +17,19 @@ use Laminas\InputFilter\InputFilterAwareInterface;
 use Laminas\InputFilter\InputFilterInterface;
 
 /**
- * Base\Entity\News
+ * Base\Entity\AuthRole
  *
- *  * 最新消息
+ *  * 角色
  *  *
- * @ORM\Entity(repositoryClass="NewsRepository")
- * @ORM\Table(name="news",
- *     options={"comment": "最新消息",
+ * @ORM\Entity(repositoryClass="AuthRoleRepository")
+ * @ORM\Table(name="auth_role",
+ *     options={"comment": "角色",
  *         "collate": "utf8mb4_unicode_ci",
  *         "charset": "utf8mb4"
  *     }
  * )
  */
-class News implements InputFilterAwareInterface
+class AuthRole implements InputFilterAwareInterface
 {
     /**
      * Instance of InputFilterInterface.
@@ -45,42 +46,27 @@ class News implements InputFilterAwareInterface
     protected $id;
 
     /**
-     * 標題
-     * @ORM\Column(type="string", length=100, options={"comment": "標題"})
+     * 角色
+     * @ORM\Column(name="`name`", type="string", length=45, nullable=true, options={"comment": "角色"})
      */
-    protected $title;
+    protected $name;
 
     /**
-     * 內容
-     * @ORM\Column(type="text", options={"comment": "內容"})
+     * @ORM\OneToMany(targetEntity="Base\Entity\Users", mappedBy="auth_role")
+     * @ORM\JoinColumn(name="id", referencedColumnName="auth_role_id", nullable=false)
      */
-    protected $content;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $created_at;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $updated_at;
-
-    /**
-     * 公佈狀態
-     * @ORM\Column(name="`status`", type="integer", options={"comment": "公佈狀態"})
-     */
-    protected $status;
+    protected $users;
 
     public function __construct()
     {
+        $this->users = new ArrayCollection();
     }
 
     /**
      * Set the value of id.
      *
      * @param int $id
-     * @return \Base\Entity\News
+     * @return \Base\Entity\AuthRole
      */
     public function setId($id)
     {
@@ -100,118 +86,62 @@ class News implements InputFilterAwareInterface
     }
 
     /**
-     * Set the value of title.
+     * Set the value of name.
      *
-     * @param string $title
-     * @return \Base\Entity\News
+     * @param string $name
+     * @return \Base\Entity\AuthRole
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get the value of title.
+     * Get the value of name.
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
-     * Set the value of content.
+     * Add Users entity to collection (one to many).
      *
-     * @param string $content
-     * @return \Base\Entity\News
+     * @param \Base\Entity\Users $users
+     * @return \Base\Entity\AuthRole
      */
-    public function setContent($content)
+    public function addUsers($users)
     {
-        $this->content = $content;
+        $this->users[] = $users;
 
         return $this;
     }
 
     /**
-     * Get the value of content.
+     * Remove Users entity from collection (one to many).
      *
-     * @return string
+     * @param \Base\Entity\Users $users
+     * @return \Base\Entity\AuthRole
      */
-    public function getContent()
+    public function removeUsers($users)
     {
-        return $this->content;
-    }
-
-    /**
-     * Set the value of created_at.
-     *
-     * @param \DateTime $created_at
-     * @return \Base\Entity\News
-     */
-    public function setCreatedAt($created_at)
-    {
-        $this->created_at = $created_at;
+        $this->users->removeElement($users);
 
         return $this;
     }
 
     /**
-     * Get the value of created_at.
+     * Get Users entity collection (one to many).
      *
-     * @return \DateTime
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCreatedAt()
+    public function getUsers()
     {
-        return $this->created_at;
-    }
-
-    /**
-     * Set the value of updated_at.
-     *
-     * @param \DateTime $updated_at
-     * @return \Base\Entity\News
-     */
-    public function setUpdatedAt($updated_at)
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of updated_at.
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
-
-    /**
-     * Set the value of status.
-     *
-     * @param int $status
-     * @return \Base\Entity\News
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of status.
-     *
-     * @return int
-     */
-    public function getStatus()
-    {
-        return $this->status;
+        return $this->users;
     }
 
     /**
@@ -248,8 +178,8 @@ class News implements InputFilterAwareInterface
                                 ],
             ],
             [
-                'name' => 'title',
-                'required' => true,
+                'name' => 'name',
+                'required' => false,
                 'filters' => [
                                     ['name' => 'Laminas\Filter\StripTags'],
                                     ['name' => 'Laminas\Filter\StringTrim'],
@@ -259,39 +189,10 @@ class News implements InputFilterAwareInterface
                                         'name' => 'Laminas\Validator\StringLength',
                                         'options' => [
                                             'encoding' => 'UTF-8',
-                                            'min' => 1,
-                                            'max' => 100
+                                            'min' => 0,
+                                            'max' => 45
                                         ],
                                     ],
-                                ],
-            ],
-            [
-                'name' => 'content',
-                'required' => true,
-                'filters' => [
-                                ],
-                'validators' => [],
-            ],
-            [
-                'name' => 'created_at',
-                'required' => false,
-                'filters' => [],
-                'validators' => [],
-            ],
-            [
-                'name' => 'updated_at',
-                'required' => false,
-                'filters' => [],
-                'validators' => [],
-            ],
-            [
-                'name' => 'status',
-                'required' => true,
-                'filters' => [
-                                    ['name' => 'Laminas\Filter\ToInt'],
-                                ],
-                'validators' => [
-                                    ['name' => 'Laminas\I18n\Validator\IsInt'],
                                 ],
             ],
         ];
@@ -330,7 +231,7 @@ class News implements InputFilterAwareInterface
      */
     public function getArrayCopy(array $fields = [])
     {
-        $dataFields = ['id', 'title', 'content', 'created_at', 'updated_at', 'status'];
+        $dataFields = ['id', 'name'];
         $relationFields = [];
         $copiedFields = [];
         foreach ($relationFields as $relationField) {
@@ -363,6 +264,6 @@ class News implements InputFilterAwareInterface
 
     public function __sleep()
     {
-        return ['id', 'title', 'content', 'created_at', 'updated_at', 'status'];
+        return ['id', 'name'];
     }
 }
