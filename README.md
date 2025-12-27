@@ -2,43 +2,49 @@
 
 ## 安裝手冊
 
-請依照以下步驟完成 mezzio-web 專案的安裝與啟動：
+建議直接使用 `setup.sh` 自動化安裝選單，快速完成專案初始化、啟動與常用操作。
 
-### 1. 複製設定檔
-
-```bash
-cp docker-compose.yml.sample docker-compose.yml
-cp env-sample .env
-cp .docker/nginx/default.conf.dist .docker/nginx/conf.d/default.conf
-```
-
-### 2. 調整資料夾權限
-
-確保 PHP 服務可正確存取資料目錄：
+### 一鍵安裝與啟動
 
 ```bash
-sudo chmod -R 777 ./web/php/data
+chmod +x setup.sh
+./setup.sh
 ```
 
-### 3. 建立硬連結
+執行後會出現互動式選單，主要功能如下：
 
-將 .env 檔案連結到 PHP 設定目錄：
+- (1) 專案初始化 + 啟動開發環境（自動複製設定檔、建立連結、啟動容器、安裝 PHP 套件、關閉快取）
+- (2) 啟動開發環境（啟動容器、安裝/更新 PHP 套件、關閉快取）
+- (3) 執行 CLI 工具（進入互動式 CLI 指令模式）
+- (4) 執行 Composer（進入互動式 composer 指令模式）
+- (5) 執行 Migrate（包含 workbench export、產生/執行/還原/更新 migration）
+- (Q) 離開
 
-```bash
-ln .env ./web/php/config/.env
-```
+> **小提醒**：
+> - 第一次建議選 (1) 完整初始化。
+> - 之後可用 (2) 快速啟動開發環境。
 
-### 4. 設定環境參數
+### 傳統手動安裝步驟（供參考）
 
-請依實際需求編輯 `.env` 檔案，設定資料庫、Redis、MongoDB 等相關參數。
-
-### 5. 啟動專案
-
-使用 Docker Compose 啟動所有服務：
-
-```bash
-docker compose up -d
-```
+1. 複製設定檔
+	```bash
+	cp docker-compose.yml.sample docker-compose.yml
+	cp env-sample .env
+	cp .docker/nginx/default.conf.dist .docker/nginx/conf.d/default.conf
+	```
+2. 調整資料夾權限
+	```bash
+	sudo chmod -R 777 ./web/php/data
+	```
+3. 建立硬連結
+	```bash
+	ln .env ./web/php/config/.env
+	```
+4. 設定 `.env` 參數（資料庫、Redis、MongoDB 等）
+5. 啟動專案
+	```bash
+	docker compose up -d
+	```
 
 ---
 
