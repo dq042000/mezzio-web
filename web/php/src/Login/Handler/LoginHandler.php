@@ -2,32 +2,52 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace Login\Handler;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
+use Base\Entity\Users;
+use Doctrine\ORM\EntityManagerInterface;
+use Login\Traits\LoginAuthTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Mezzio\Template\TemplateRendererInterface;
 use Mezzio\Csrf\CsrfGuardFactoryInterface;
-use Psr\Container\ContainerInterface;
+use Mezzio\Session\SessionInterface;
+use Mezzio\Session\SessionMiddleware;
 
 class LoginHandler implements RequestHandlerInterface
 {
+    use LoginAuthTrait;
+
     private TemplateRendererInterface $renderer;
     private CsrfGuardFactoryInterface $csrfGuardFactory;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(TemplateRendererInterface $renderer, CsrfGuardFactoryInterface $csrfGuardFactory)
+    public function __construct(
+        TemplateRendererInterface $renderer,
+        CsrfGuardFactoryInterface $csrfGuardFactory,
+        EntityManagerInterface $entityManager
+    )
     {
         $this->renderer = $renderer;
         $this->csrfGuardFactory = $csrfGuardFactory;
+        $this->entityManager = $entityManager;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $error = '';
         $guard = $this->csrfGuardFactory->createGuardFromRequest($request);
+        $session = $this->getSession($request);
+
+        if (!$session instanceof SessionInterface) {
+            return new HtmlResponse($this->renderer->render('auth::login', [
+                'csrf' => $guard->generateToken(),
+                'error' => 'Session 無法使用，請稍後再試',
+            ]));
+        }
 
         if ($request->getMethod() === 'POST') {
             $data = $request->getParsedBody() ?? [];
@@ -44,10 +64,17 @@ class LoginHandler implements RequestHandlerInterface
             } elseif (empty($username) || empty($password)) {
                 $error = '帳號或密碼不得為空';
             } else {
-                // TODO: 實作帳號密碼驗證
-                // if (auth success) {
-                //     return new RedirectResponse('/dashboard');
-                // }
+                $userPayload = $this->authenticate($username, $password);
+
+                if ($userPayload !== null) {
+                    $session->regenerate();
+                    $session->set('user', [
+                        'current_user' => $userPayload,
+                    ]);
+
+                    return new RedirectResponse('/');
+                }
+
                 $error = '帳號或密碼錯誤';
             }
         }
@@ -57,15 +84,5 @@ class LoginHandler implements RequestHandlerInterface
             'csrf' => $csrfToken,
             'error' => $error,
         ]));
-    }
-
-    private function validateCaptcha(ServerRequestInterface $request, string $input): bool
-    {
-        $session = $request->getAttribute('session');
-        if (!$session) {
-            return false;
-        }
-        $expected = $session->get('captcha');
-        return $expected && strtolower($input) === strtolower($expected);
     }
 }

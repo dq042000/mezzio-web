@@ -11,6 +11,7 @@ return [
         // key is the alias name, the value is the service to which it points.
         'aliases' => [
             // Fully\Qualified\ClassOrInterfaceName::class => Fully\Qualified\ClassName::class,
+            \Doctrine\ORM\EntityManagerInterface::class => 'doctrine.entitymanager.orm_default',
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
@@ -20,7 +21,7 @@ return [
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
-            \App\Handler\LoginHandler::class => \App\Handler\LoginHandlerFactory::class,
+            \Login\Handler\LoginHandler::class => \Login\Factory\LoginHandlerFactory::class,
             \Mezzio\Session\SessionPersistenceInterface::class => \Mezzio\Session\Ext\PhpSessionPersistenceFactory::class,
         ],
     ],

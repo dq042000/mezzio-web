@@ -22,6 +22,12 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'laminas-cli'  => [
+                'commands' => [
+                    'db:init' => \App\Command\InitDbCommand::class,
+                    'user:reset-password' => \App\Command\ResetPasswordCommand::class,
+                ],
+            ],
         ];
     }
 
@@ -35,9 +41,15 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories'  => [
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
-                Handler\LoginHandler::class => Handler\LoginHandlerFactory::class,
+                Handler\HomePageHandler::class => Factory\HomePageHandlerFactory::class,
+                Handler\LoginHandler::class => Factory\LoginHandlerFactory::class,
                 \Mezzio\Session\SessionPersistenceInterface::class => \Mezzio\Session\Ext\PhpSessionPersistenceFactory::class,
+                \App\Command\InitDbCommand::class => function($container) {
+                    return new \App\Command\InitDbCommand($container->get(\Doctrine\ORM\EntityManager::class));
+                },
+                \App\Command\ResetPasswordCommand::class => function($container) {
+                    return new \App\Command\ResetPasswordCommand($container->get(\Doctrine\ORM\EntityManager::class));
+                },
             ],
         ];
     }

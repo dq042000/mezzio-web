@@ -1,45 +1,53 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <title>登入</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { background: #f5f6fa; font-family: 'Noto Sans TC', sans-serif; }
-        .login-container { max-width: 350px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ccc; padding: 32px 24px; }
-        .login-container h2 { text-align: center; margin-bottom: 24px; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; }
-        .form-group input { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-        .form-group img { margin-top: 6px; }
-        button[type=submit] { width: 100%; background: #1976d2; color: #fff; border: none; border-radius: 4px; padding: 10px 0; font-size: 1.1rem; cursor: pointer; transition: background 0.2s; }
-        button[type=submit]:hover { background: #125ea2; }
-        .error-message { color: #d32f2f; background: #fff3f3; border: 1px solid #f8d7da; border-radius: 4px; padding: 8px 12px; margin-top: 12px; text-align: center; }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>登入</h2>
-        <form method="post" action="/login">
-            <input type="hidden" name="csrf" value="{{ csrf|e }}">
-            <div class="form-group">
-                <label for="username">帳號</label>
-                <input type="text" id="username" name="username" required autofocus>
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}登入{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/login.css">
+{% endblock %}
+
+{% block content %}
+<div class="container auth-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card auth-card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h4 text-center mb-2">登入</h2>
+                    <p class="text-muted text-center mb-4">請輸入帳號、密碼與驗證碼</p>
+
+                    <form method="post" action="/login" novalidate>
+                        <input type="hidden" name="csrf" value="{{ csrf|e }}">
+
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">帳號</label>
+                            <input type="text" class="form-control" id="username" name="username" required autocomplete="username" autofocus>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">密碼</label>
+                            <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="captcha" class="form-label">驗證碼</label>
+                            <div class="d-flex align-items-center gap-2 captcha-row">
+                                <input type="text" class="form-control flex-fill" id="captcha" name="captcha" required maxlength="6" autocomplete="off" placeholder="請輸入圖片上的文字">
+                                <img src="/captcha" alt="驗證碼" onclick="this.src='/captcha?'+Math.random()" title="點擊重新整理">
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-2">
+                            <button class="btn btn-primary" type="submit">登入</button>
+                        </div>
+
+                        {% if error is defined and error %}
+                            <div class="alert alert-danger mb-0" role="alert">{{ error|e }}</div>
+                        {% endif %}
+                    </form>
+
+                    <p class="text-muted small text-center mt-3 mb-0">若驗證碼看不清楚，點擊圖片可重新整理</p>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">密碼</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="captcha">驗證碼</label>
-                <input type="text" id="captcha" name="captcha" required maxlength="6" autocomplete="off">
-                <img src="/captcha" alt="驗證碼" onclick="this.src='/captcha?'+Math.random()" style="cursor:pointer;vertical-align:middle;" title="點擊重新整理">
-            </div>
-            <button type="submit">登入</button>
-        </form>
-        {% if error is defined and error %}
-            <div class="error-message">{{ error|e }}</div>
-        {% endif %}
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

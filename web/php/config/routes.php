@@ -40,7 +40,7 @@ use Psr\Container\ContainerInterface;
  */
 
 
-use App\Handler\LoginHandler;
+use Login\Handler\LoginHandler;
 use App\Handler\CaptchaHandler;
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {

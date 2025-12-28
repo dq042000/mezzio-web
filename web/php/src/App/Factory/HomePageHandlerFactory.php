@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Factory;
 
+use App\Handler\HomePageHandler;
 use Mezzio\Router\RouterInterface;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;

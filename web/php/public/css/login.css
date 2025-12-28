@@ -1,0 +1,33 @@
+:root {
+    --auth-bg: #f8f9fa;
+}
+
+body.auth-page {
+    background: var(--auth-bg);
+}
+
+.auth-wrapper {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.auth-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.auth-card .form-control {
+    border-radius: 10px;
+}
+
+.captcha-row img {
+    height: 44px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 4px;
+    background: #fff;
+}
+.captcha-row {
+    flex-wrap: nowrap;
+    gap: 16px;
+}
