@@ -15,6 +15,7 @@ web/php/data/sql/*
 web/php/data/temp/*
 web/php/data/DoctrineORMModule/*
 web/php/data/DoctrineORMModule/Migrations/*
+web/php/data/DoctrineORMModule/Proxy/*
 docker-compose.yml
 
 # 但不忽略以下檔案
@@ -32,6 +33,7 @@ docker-compose.yml
 !web/php/data/temp/
 !web/php/data/DoctrineORMModule/
 !web/php/data/DoctrineORMModule/Migrations/
+!web/php/data/DoctrineORMModule/Proxy/
 
 !DB/.gitkeep
 !.docker/logs/nginx/.gitkeep
@@ -47,3 +49,4 @@ docker-compose.yml
 !web/php/data/temp/.gitkeep
 !web/php/data/DoctrineORMModule/.gitkeep
 !web/php/data/DoctrineORMModule/Migrations/.gitkeep
+!web/php/data/DoctrineORMModule/Proxy/.gitkeep
